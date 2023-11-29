@@ -1,0 +1,15 @@
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\bin\Debug\net7.0\CSE210.exe
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\bin\Debug\net7.0\CSE210.deps.json
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\bin\Debug\net7.0\CSE210.runtimeconfig.json
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\bin\Debug\net7.0\CSE210.dll
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\bin\Debug\net7.0\CSE210.pdb
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\CSE210.csproj.AssemblyReference.cache
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\CSE210.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\CSE210.AssemblyInfoInputs.cache
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\CSE210.AssemblyInfo.cs
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\CSE210.csproj.CoreCompileInputs.cache
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\CSE210.dll
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\refint\CSE210.dll
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\CSE210.pdb
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\CSE210.genruntimeconfig.cache
+C:\Users\ethan\Desktop\CSE Homework\CSE210\Final\obj\Debug\net7.0\ref\CSE210.dll
