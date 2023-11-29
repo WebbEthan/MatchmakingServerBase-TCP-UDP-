@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 public abstract class Client
 {
     protected Match CurrentMatch;
-    
+    public string matchRefrenceForClient = "";
     public bool IsHost = false;
     protected abstract Type MatchType { get; set; }
     private int _programID;
@@ -139,6 +139,10 @@ public abstract class Client
                                                 SendData(packet1);
                                             }
                                         }
+                                    }
+                                    else if (packet.PacketType == 252)
+                                    {
+                                        _refrence.CurrentMatch.RemoveClient(_refrence.matchRefrenceForClient);
                                     }
                                     else
                                     {

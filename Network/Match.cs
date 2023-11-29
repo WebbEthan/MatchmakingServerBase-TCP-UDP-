@@ -19,26 +19,31 @@ public abstract class Match
     
 
     // Checks that there is an available space for the client and add client to match, returns false if no space is available
-    protected bool AddClient(Client client, string matchRefrenceForClient = "")
+    protected bool AddClient(Client client)
     {
         if (_clients.Count < MaxClients - 1)
         {
-            while (_clients.ContainsKey(matchRefrenceForClient))
+            while (_clients.ContainsKey(client.matchRefrenceForClient))
             {
-                matchRefrenceForClient += "1";
+                client.matchRefrenceForClient += "1";
             }
             using (Packet packet = new Packet(254))
             {
-                packet.Write(matchRefrenceForClient);
+                packet.Write(client.matchRefrenceForClient);
                 SendToAll(packet, ProtocolType.Tcp);
             }
-            _clients.Add(matchRefrenceForClient, client);
+            _clients.Add(client.matchRefrenceForClient, client);
         }
         return false;
     }
-    public void RemoveClient(Client client)
+    public void RemoveClient(string clientID)
     {
-        
+        _clients.Remove(clientID);
+        using (Packet packet = new Packet(252))
+        {
+            packet.Write(clientID);
+            SendToAll(packet, ProtocolType.Tcp);
+        }
     }
     #region  Distributers
     // Sends data to the Host
