@@ -36,6 +36,7 @@ public abstract class Match
         }
         return false;
     }
+    // Removes client from the match and sends that info to the other clients in match
     public void RemoveClient(string clientID)
     {
         _clients.Remove(clientID);
