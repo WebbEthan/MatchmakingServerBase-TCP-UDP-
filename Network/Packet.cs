@@ -28,6 +28,7 @@ public class Packet : IDisposable
     {
         return data.GetRange(_readerPos, data.Count - _readerPos).ToArray();
     }
+    // Methods for converting variable to bytes and adding them to the array
     #region WriteingMethods
     public void Write(byte _data)
     {
@@ -56,6 +57,7 @@ public class Packet : IDisposable
         data.AddRange(BitConverter.GetBytes(value));
     }
     #endregion
+   // Methods for retunging values from the byte array
     #region ReadMethods
     public byte ReadByte()
     {

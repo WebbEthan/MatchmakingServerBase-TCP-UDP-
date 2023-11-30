@@ -61,8 +61,8 @@ public abstract class Client
     }
     public void Disconnect()
     {
-        _tcpProtocal._disconnect();
-        _udpProtocal._disconnect();
+        _tcpProtocal.Disconnect();
+        _udpProtocal.Disconnect();
         Console.WriteLine("Client disconnected");
     }
     private _tcp _tcpProtocal;
@@ -98,6 +98,13 @@ public abstract class Client
         {
             if (_active)
             {
+                // Checks that the socket is still connected
+                if (!_socket.Connected)
+                {
+                    _refrence.Disconnect();
+                    return;
+                }
+                // Accepts incoming data
                 int recievedLength = _socket.EndReceive(result);
                 // ensures data is within the set byte limit
                 if (recievedLength > _buffer.Length)
@@ -118,6 +125,7 @@ public abstract class Client
                             {
                                 using (Packet packet = new Packet(data))
                                 {
+                                    int length = packet.ReadInt();
                                     if (packet.PacketType == 255)
                                     {
                                         // Requests a match
@@ -150,7 +158,7 @@ public abstract class Client
                                         _refrence.Handles[packet.PacketType](packet, ProtocolType.Tcp);
                                     }
                                     // Runs packets recieved in rececion
-                                    data = packet.UnreadData();
+                                    data = packet.data.GetRange(length, packet.data.Count - length - 4).ToArray();
                                     if (data.Length == 0)
                                     {
                                         break;
@@ -172,7 +180,7 @@ public abstract class Client
                 }
             }
         }
-        public void _disconnect()
+        public void Disconnect()
         {
             _active = false;
             _socket.Close();
@@ -191,7 +199,7 @@ public abstract class Client
         {
             Server.SendUDPData(packet, _reference._programID, _udpEndpoint);
         }
-        public void _disconnect()
+        public void Disconnect()
         {
             Server.DisconnectClient = _udpEndpoint;
         }
