@@ -86,6 +86,7 @@ public class Packet : IDisposable
     {
         data.InsertRange(index, _data);
     }
+    // adds the PacketType to the front of the array
     public void PrepForSending()
     {
         Packaged = true;

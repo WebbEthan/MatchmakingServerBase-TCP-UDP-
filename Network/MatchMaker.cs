@@ -48,6 +48,7 @@ public static class MatchMaker
     }
     private const string _usableCodeCharaters = "abcdefghijklmnopqrstuvwxyz0123456789";
     private static Random _random = new Random();
+    // crates a new match
     private static Match _createMatch(Type type, Client client)
     {
         // Generates new match code

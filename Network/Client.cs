@@ -16,8 +16,10 @@ public abstract class Client
     protected Match CurrentMatch;
     public string matchRefrenceForClient = "";
     public bool IsHost = false;
+    // They Type of match this client can go into
     protected abstract Type MatchType { get; set; }
     private int _programID;
+    // Mesage sent durring authentication
     protected string WelcomeMSG = "Welcome to the server";
     public Client(Socket socket, int programID, int partialClient)
     {

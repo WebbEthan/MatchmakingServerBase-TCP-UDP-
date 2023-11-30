@@ -3,8 +3,8 @@ using System;
 using System.Reflection.Metadata;
 public static class ThreadManager
 {
-    private const int _tickrate = 20;
     public static bool ProgramActive;
+    // Starts the threads
     public static void StartThreads()
     {
         ProgramActive = true;
@@ -20,6 +20,7 @@ public static class ThreadManager
     #region  Main Thread
     private static Thread _mainThreadReference = new Thread(new ThreadStart(_mainThread));
     private static List<Action> _toExecuteOnMainThread = new List<Action>();
+    // Adds actions to the execute list
     public static List<Action> ExecuteOnMainThread { set { lock(_toExecuteOnMainThread) {_toExecuteOnMainThread.AddRange(value);} } }
     private static void _mainThread()
     {
