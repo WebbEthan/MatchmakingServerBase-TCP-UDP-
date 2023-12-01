@@ -14,6 +14,7 @@ public abstract class Match
     //List of client in the match and their refrences
     private Dictionary<string, Client> _clients = new Dictionary<string, Client>();
     public string[] GetClientIDs { get{ return _clients.Keys.ToArray(); } }
+    public int ClientCount { get{ return _clients.Count + 1; }}
     // Method for adding client
     public abstract bool TryClient(Client client);
     
