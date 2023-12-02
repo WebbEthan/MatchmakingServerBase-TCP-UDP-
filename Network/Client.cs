@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 public abstract class Client
 {
     protected Match CurrentMatch;
-    public string matchRefrenceForClient = "";
+    public string MatchRefrenceForClient = "";
     public bool IsHost = false;
     // They Type of match this client can go into
     protected abstract Type MatchType { get; set; }
@@ -127,7 +127,6 @@ public abstract class Client
                             {
                                 using (Packet packet = new Packet(data))
                                 {
-                                    int length = packet.ReadInt();
                                     if (packet.PacketType == 255)
                                     {
                                         // Requests a match
@@ -152,7 +151,7 @@ public abstract class Client
                                     }
                                     else if (packet.PacketType == 252)
                                     {
-                                        _refrence.CurrentMatch.RemoveClient(_refrence.matchRefrenceForClient);
+                                        _refrence.CurrentMatch.RemoveClient(_refrence.MatchRefrenceForClient);
                                     }
                                     else
                                     {
@@ -160,7 +159,7 @@ public abstract class Client
                                         _refrence.Handles[packet.PacketType](packet, ProtocolType.Tcp);
                                     }
                                     // Runs packets recieved in rececion
-                                    data = packet.data.GetRange(length, packet.data.Count - length - 4).ToArray();
+                                    data = packet.data.GetRange(packet.PacketLength, packet.data.Count - packet.PacketLength).ToArray();
                                     if (data.Length == 0)
                                     {
                                         break;

@@ -8,14 +8,23 @@ public class Packet : IDisposable
     public List<byte> data;
     private byte[] _readingData;
     private int _readerPos = 0;
+    public int PacketLength;
     #region  Constructors
-    public Packet(byte[] _data)
+    public Packet(byte[] _data, bool readLength = true)
     {
         PacketType = _data[0];
-        Packaged = true;
         List<byte> Readable = new List<byte>();
         Readable.AddRange(_data);
-        data = Readable.GetRange(1, _data.Length - 1);
+        if (readLength)
+        {
+            PacketLength = BitConverter.ToInt32(_data, 1);
+            data = Readable.GetRange(5, _data.Length - 5);
+        }
+        else
+        {
+            data = Readable.GetRange(1, _data.Length - 1);
+        }
+        Packaged = true;
         _readingData = data.ToArray();
     }
     public Packet(byte type)

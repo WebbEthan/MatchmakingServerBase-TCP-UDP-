@@ -1,3 +1,5 @@
+using System.Net.Sockets;
+
 public class RPSMatch : Match
 {
     public RPSMatch(Client hostClient, string matchCode):base(hostClient, matchCode)
@@ -9,9 +11,17 @@ public class RPSMatch : Match
         if (ClientCount < 2)
         {
             AddClient(client);
+            _startGame();
             return true;
         }
         return false;
+    }
+    private void _startGame()
+    {
+        using (Packet packet = new Packet(1))
+        {
+            SendToAll(packet, ProtocolType.Tcp);
+        }
     }
     private enum option { rock, paper, scissors }
     private string? _guesser;
@@ -26,17 +36,24 @@ public class RPSMatch : Match
         }
         else
         {
-            if (_savedGuess == guess)
+            using (Packet packet1 = new Packet(2))
             {
-                // draw
-            }
-            if ((byte)_savedGuess + 1 == (byte)guess || ((byte)_savedGuess + 1 == 4 && (byte)guess == 0))
-            {
-                // lose
-            }
-            else
-            {
-                // win
+                if (_savedGuess == guess)
+                {
+                    // Draw
+                    packet1.Write((byte)0);
+                }
+                else if ((byte)_savedGuess + 1 == (byte)guess || ((byte)_savedGuess + 1 == 4 && (byte)guess == 0))
+                {
+                    // Lose
+                    packet1.Write((byte)1);
+                }
+                else
+                {
+                    // Win
+                    packet1.Write((byte)2);   
+                }
+                SendToAll(packet1, ProtocolType.Tcp);
             }
             _savedGuess = null;
             _guesser = null;

@@ -24,16 +24,16 @@ public abstract class Match
     {
         if (_clients.Count < MaxClients - 1)
         {
-            while (_clients.ContainsKey(client.matchRefrenceForClient))
+            while (_clients.ContainsKey(client.MatchRefrenceForClient))
             {
-                client.matchRefrenceForClient += "1";
+                client.MatchRefrenceForClient += "1";
             }
             using (Packet packet = new Packet(254))
             {
-                packet.Write(client.matchRefrenceForClient);
+                packet.Write(client.MatchRefrenceForClient);
                 SendToAll(packet, ProtocolType.Tcp);
             }
-            _clients.Add(client.matchRefrenceForClient, client);
+            _clients.Add(client.MatchRefrenceForClient, client);
         }
         return false;
     }

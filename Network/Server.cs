@@ -103,7 +103,7 @@ public static class Server
             {
                 try
                 {
-                    using (Packet packet = new Packet(data))
+                    using (Packet packet = new Packet(data, false))
                     {
                         // Checks if client UDP is setup
                         if (_clients.ContainsKey(clientEndPoint))
