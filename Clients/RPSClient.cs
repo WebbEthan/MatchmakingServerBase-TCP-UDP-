@@ -1,7 +1,7 @@
 using System.Net.Sockets;
 using System.Reflection.Metadata;
 
-public class RPSClient : Client
+public class RPSClient : Client<RPSMatch>
 {
     protected override Type MatchType { get; set; } = typeof(RPSMatch);
     public RPSClient(Socket socket, int programID, int parialClient):base(socket, programID, parialClient)
@@ -19,6 +19,6 @@ public class RPSClient : Client
     }
     private void _submition(Packet packet, ProtocolType protocolType)
     {
-       // CurrentMatch.MakeGuess(packet, MatchRefrenceForClient);
+        CurrentMatch.MakeGuess(packet, protocolType);
     }
 }

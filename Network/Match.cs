@@ -3,8 +3,8 @@ using System.Net.Sockets;
 public abstract class Match
 {
     public string MatchCode;
-    private Client _hostClient;
-    public Match (Client hostclient, string matchCode)
+    private Client<Match> _hostClient;
+    public Match (Client<Match> hostclient, string matchCode)
     {
         MatchCode = matchCode;
         _hostClient = hostclient;
@@ -12,15 +12,13 @@ public abstract class Match
     protected int MaxClients;
 
     //List of client in the match and their refrences
-    private Dictionary<string, Client> _clients = new Dictionary<string, Client>();
+    private Dictionary<string, Client<Match>> _clients = new Dictionary<string, Client<Match>>();
     public string[] GetClientIDs { get{ return _clients.Keys.ToArray(); } }
     public int ClientCount { get{ return _clients.Count + 1; }}
     // Method for adding client
-    public abstract bool TryClient(Client client);
-    
-
+    public abstract bool TryClient(Client<Match> client);
     // Checks that there is an available space for the client and add client to match, returns false if no space is available
-    protected bool AddClient(Client client)
+    protected bool AddClient(Client<Match> client)
     {
         if (_clients.Count < MaxClients - 1)
         {
@@ -57,7 +55,7 @@ public abstract class Match
     public void SendToAll(Packet packet, ProtocolType protocolType)
     {
         _hostClient.SendData(packet, protocolType);
-        foreach (Client client in _clients.Values)
+        foreach (Client<Match> client in _clients.Values)
         {
             client.SendData(packet, protocolType);
         }
@@ -65,7 +63,7 @@ public abstract class Match
     // Distributes data to all clients except the host
     public void SendToAllClients(Packet packet, ProtocolType protocolType)
     {
-        foreach (Client client in _clients.Values)
+        foreach (Client<Match> client in _clients.Values)
         {
             client.SendData(packet, protocolType);
         }

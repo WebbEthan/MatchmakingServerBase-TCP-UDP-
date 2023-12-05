@@ -12,7 +12,7 @@ public static class MatchMaker
     }
     private static Dictionary<Type, Dictionary<string, Match>> _matches = new Dictionary<Type, Dictionary<string, Match>>();
     // Handles the creation and joining of matches "-1" to create a match "0" for a random match
-    public static bool RequestMatch(string match, Type type, Client client, ref Match matchData, out bool isHost)
+    public static bool RequestMatch(string match, Type type, Client<Match> client, ref Match matchData, out bool isHost)
     {
         isHost = false;
         switch (match)
@@ -49,7 +49,7 @@ public static class MatchMaker
     private const string _usableCodeCharaters = "abcdefghijklmnopqrstuvwxyz0123456789";
     private static Random _random = new Random();
     // crates a new match
-    private static Match _createMatch(Type type, Client client)
+    private static Match _createMatch(Type type, Client<Match> client)
     {
         // Generates new match code
         string matchCode = null;

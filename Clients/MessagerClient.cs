@@ -1,6 +1,6 @@
 using System.Net.Sockets;
 
-public class MessagerClient : Client
+public class MessagerClient : Client<MSGMatch>
 {
     protected override Type MatchType { get; set; } = typeof(MSGMatch);
     public MessagerClient(Socket socket, int programID, int partialClient):base(socket, programID, partialClient)

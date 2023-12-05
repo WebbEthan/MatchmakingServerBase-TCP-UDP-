@@ -2,11 +2,11 @@ using System.Net.Sockets;
 
 public class RPSMatch : Match
 {
-    public RPSMatch(Client hostClient, string matchCode):base(hostClient, matchCode)
+    public RPSMatch(Client<Match> hostClient, string matchCode):base(hostClient, matchCode)
     {
 
     }
-    public override bool TryClient(Client client)
+    public override bool TryClient(Client<Match> client)
     {
         if (ClientCount < 2)
         {
@@ -26,8 +26,9 @@ public class RPSMatch : Match
     private enum option { rock, paper, scissors }
     private string? _guesser;
     private option? _savedGuess;
-    public void MakeGuess(Packet packet, string guesser)
+    public void MakeGuess(Packet packet, ProtocolType type)
     {
+        string guesser = packet.ReadString();
         option guess = (option)packet.ReadByte();
         if (_savedGuess == null)
         {

@@ -11,9 +11,10 @@ using System.Runtime.CompilerServices;
 4. Endpoint is passed into the UDP class and the client is connected
 */
 
-public abstract class Client
+public delegate void _packetScripts(Packet packet, ProtocolType protocolType);
+public abstract class Client<Matchtype>
 {
-    protected Match CurrentMatch;
+    protected Matchtype CurrentMatch;
     public string MatchRefrenceForClient = "";
     public bool IsHost = false;
     // They Type of match this client can go into
@@ -24,12 +25,12 @@ public abstract class Client
     public Client(Socket socket, int programID, int partialClient)
     {
         _programID = programID;
-        _tcpProtocal = new _tcp(socket, this, partialClient);
+        _tcpProtocal = new _tcp(socket, this as Client<Match>, partialClient);
     }
     // Secondary connect call for athenticating data and setting up UDP
     public void SetupUDP(IPEndPoint endPoint)
     {
-        _udpProtocal = new _udp(endPoint, this);
+        _udpProtocal = new _udp(endPoint, this as Client<Match>);
         // Authentication callback
         using (Packet packet = new Packet(253))
         {
@@ -37,7 +38,6 @@ public abstract class Client
         }
         Console.WriteLine($"Client successfully connected");
     }
-    public delegate void _packetScripts(Packet packet, ProtocolType protocolType);
     // The store of methods defined by each client type
     public Dictionary<int, _packetScripts> Handles;
     public void SendData(Packet packet, ProtocolType protocolType)
@@ -73,10 +73,10 @@ public abstract class Client
     {
         // Prevents data being recieved during Close_Wait
         private bool _active = true;
-        private Client _refrence;
+        private Client<Match> _refrence;
         private Socket _socket;
         private byte[] _buffer = new byte[4096];
-        public _tcp(Socket socket, Client reference, int partialClient)
+        public _tcp(Socket socket, Client<Match> reference, int partialClient)
         {
             _refrence = reference;
             _socket = socket;
@@ -189,9 +189,9 @@ public abstract class Client
     }
     private class _udp
     {
-        private Client _reference;
+        private Client<Match> _reference;
         private IPEndPoint _udpEndpoint;
-        public _udp(IPEndPoint endPoint, Client reference)
+        public _udp(IPEndPoint endPoint, Client<Match> reference)
         {
             _reference = reference;
             _udpEndpoint = endPoint;

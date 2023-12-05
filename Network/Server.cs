@@ -6,9 +6,9 @@ public static class Server
 {
     private const int _startingPort = 25578;
     // This is a the reference to all of the clients on the server
-    private static Dictionary<IPEndPoint, Client> _clients = new Dictionary<IPEndPoint, Client>();
+    private static Dictionary<IPEndPoint, Client<Match>> _clients = new Dictionary<IPEndPoint, Client<Match>>();
     private static int _clientsConnected = 0;
-    private static Dictionary<int, Client> _partialClients = new Dictionary<int, Client>();
+    private static Dictionary<int, Client<Match>> _partialClients = new Dictionary<int, Client<Match>>();
     // Removes a client reference
     public static IPEndPoint DisconnectClient { set{ _clients.Remove(value); } }
 
@@ -17,8 +17,8 @@ public static class Server
     // Obtains all the possible types of clients
     public static void InitializeData()
     {
-        foreach (Type type in Assembly.GetAssembly(typeof(Client)).GetTypes()
-            .Where(Client => Client.IsClass && !Client.IsAbstract && Client.IsSubclassOf(typeof(Client))))
+        foreach (Type type in Assembly.GetAssembly(typeof(Client<object>)).GetTypes()
+            .Where(Client => Client.IsClass && !Client.IsAbstract && Client.IsSubclassOf(typeof(Client<object>))))
         {
             _programTypes.Add(type);
         }
@@ -58,7 +58,7 @@ public static class Server
             socket.Close();
         }
         // Dissconnects all clients
-        foreach (Client client in _clients.Values)
+        foreach (Client<Match> client in _clients.Values)
         {
             client.Disconnect();
         }
@@ -77,7 +77,7 @@ public static class Server
             Console.WriteLine($"{newTCPClient.RemoteEndPoint} Attempted to connect to the server as a/an {_programTypes[program].Name}...");
             if (newTCPClient.Connected)
             {
-                _partialClients.Add(partialClient, (Client)Activator.CreateInstance(_programTypes[program], new object[] { newTCPClient, program, partialClient}) );
+                _partialClients.Add(partialClient, (Client<Match>)Activator.CreateInstance(_programTypes[program], new object[] { newTCPClient, program, partialClient}) );
             }
             else
             {
