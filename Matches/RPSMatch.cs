@@ -2,11 +2,11 @@ using System.Net.Sockets;
 
 public class RPSMatch : Match
 {
-    public RPSMatch(Client<Match> hostClient, string matchCode):base(hostClient, matchCode)
+    public RPSMatch(ClientDataStore hostClient, string matchCode):base(hostClient, matchCode)
     {
 
     }
-    public override bool TryClient(Client<Match> client)
+    public override bool TryClient(ClientDataStore client)
     {
         if (ClientCount < 2)
         {

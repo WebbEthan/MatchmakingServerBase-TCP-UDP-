@@ -3,8 +3,8 @@ using System.Net.Sockets;
 public abstract class Match
 {
     public string MatchCode;
-    private Client<Match> _hostClient;
-    public Match (Client<Match> hostclient, string matchCode)
+    private ClientDataStore _hostClient;
+    public Match (ClientDataStore hostclient, string matchCode)
     {
         MatchCode = matchCode;
         _hostClient = hostclient;
@@ -12,13 +12,13 @@ public abstract class Match
     protected int MaxClients;
 
     //List of client in the match and their refrences
-    private Dictionary<string, Client<Match>> _clients = new Dictionary<string, Client<Match>>();
+    private Dictionary<string, ClientDataStore> _clients = new Dictionary<string, ClientDataStore>();
     public string[] GetClientIDs { get{ return _clients.Keys.ToArray(); } }
     public int ClientCount { get{ return _clients.Count + 1; }}
     // Method for adding client
-    public abstract bool TryClient(Client<Match> client);
+    public abstract bool TryClient(ClientDataStore client);
     // Checks that there is an available space for the client and add client to match, returns false if no space is available
-    protected bool AddClient(Client<Match> client)
+    protected bool AddClient(ClientDataStore client)
     {
         if (_clients.Count < MaxClients - 1)
         {

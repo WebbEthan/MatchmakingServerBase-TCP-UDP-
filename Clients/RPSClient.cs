@@ -3,7 +3,6 @@ using System.Reflection.Metadata;
 
 public class RPSClient : Client<RPSMatch>
 {
-    protected override Type MatchType { get; set; } = typeof(RPSMatch);
     public RPSClient(Socket socket, int programID, int parialClient):base(socket, programID, parialClient)
     {
         Handles = new Dictionary<int, _packetScripts>() 

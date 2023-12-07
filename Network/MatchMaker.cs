@@ -10,35 +10,38 @@ public static class MatchMaker
             _matches.Add(type, new Dictionary<string, Match>());
         }
     }
-    private static Dictionary<Type, Dictionary<string, Match>> _matches = new Dictionary<Type, Dictionary<string, Match>>();
+    public static Dictionary<Type, Dictionary<string, Match>> _matches = new Dictionary<Type, Dictionary<string, Match>>();
     // Handles the creation and joining of matches "-1" to create a match "0" for a random match
-    public static bool RequestMatch(string match, Type type, Client<Match> client, ref Match matchData, out bool isHost)
+    public static bool RequestMatch<matchType>(string match, Type type, ClientDataStore client, ref matchType matchData, out bool isHost) where matchType : Match
     {
         isHost = false;
         switch (match)
         {
             case "0":
+                // Random Match
                 for (int i = 0; i < _matches[type].Count; i++)
                 {
                     if (_matches[type].ElementAt(i).Value.TryClient(client))
                     {
-                        matchData = _matches[type].ElementAt(i).Value;
+                        matchData = (matchType)_matches[type].ElementAt(i).Value;
                         return true;
                     }
                 }
-                matchData = _createMatch(type, client);
+                matchData = _createMatch<matchType>(type, client);
                 isHost = true;
                 return true;
             case "-1":
-                matchData = _createMatch(type, client);
+                // New Match
+                matchData = _createMatch<matchType>(type, client);
                 isHost = true;
                 return true;
             default:
+                // Specific Match
                 if (_matches[type].ContainsKey(match))
                 {
                     if (_matches[type][match].TryClient(client))
                     {
-                        matchData = _matches[type][match];
+                        matchData = (matchType)_matches[type][match];
                         return true;
                     }
                 }
@@ -49,7 +52,7 @@ public static class MatchMaker
     private const string _usableCodeCharaters = "abcdefghijklmnopqrstuvwxyz0123456789";
     private static Random _random = new Random();
     // crates a new match
-    private static Match _createMatch(Type type, Client<Match> client)
+    private static matchType _createMatch<matchType>(Type type, ClientDataStore client) where matchType : Match 
     {
         // Generates new match code
         string matchCode = null;
@@ -59,7 +62,7 @@ public static class MatchMaker
         .Select(s => s[_random.Next(s.Length)]).ToArray());
         }
         // creates match
-        Match newMatch = (Match)Activator.CreateInstance(type, new object[] { client, matchCode });
+        matchType newMatch = (matchType)Activator.CreateInstance(type, new object[] { client, matchCode });
         _matches[type].Add(matchCode, newMatch);
         Console.WriteLine($"Created {type.Name} match with code : {matchCode}");
         return newMatch;
