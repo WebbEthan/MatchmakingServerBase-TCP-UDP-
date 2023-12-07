@@ -50,11 +50,6 @@ public abstract class ClientDataStore
         }
     }
     #region  Sockets
-    public void Kick()
-    {
-        _tcpProtocal.SendData(new Packet(0));
-        Disconnect();
-    }
     public void Disconnect()
     {
         _tcpProtocal.Disconnect();
