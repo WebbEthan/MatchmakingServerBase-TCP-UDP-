@@ -1,4 +1,5 @@
-﻿// Starts the threads
+﻿Console.Clear();
+// Starts the threads
 ThreadManager.StartThreads();
 // Initializes Data
 Console.WriteLine("Initializing please wait...");

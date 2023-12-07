@@ -48,11 +48,13 @@ public class RPSMatch : Match
                 {
                     // Lose
                     packet1.Write((byte)1);
+                    packet.Write(guesser);
                 }
                 else
                 {
                     // Win
-                    packet1.Write((byte)2);   
+                    packet1.Write((byte)1);   
+                    packet.Write(_guesser);
                 }
                 SendToAll(packet1, ProtocolType.Tcp);
             }

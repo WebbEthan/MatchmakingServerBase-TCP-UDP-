@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Sockets;
 // Used to allow scripting bettween match and client types
 public abstract class Client<matchType> : ClientDataStore where matchType : Match
@@ -9,6 +8,7 @@ public abstract class Client<matchType> : ClientDataStore where matchType : Matc
     {
 
     }
+    // TCP Handling is pushed here to allow convertion from type Match to typeof matchType
     protected override void HandleTCPData(byte[] data)
     {
         try
@@ -21,6 +21,7 @@ public abstract class Client<matchType> : ClientDataStore where matchType : Matc
                     {
                         // Requests a match
                         string matchCode = packet.ReadString();
+                        MatchRefrenceForClient = packet.ReadString();
                         if (MatchMaker.RequestMatch<matchType>(matchCode, typeof(matchType), this, ref CurrentMatch, out IsHost))
                         {
                             // Returns data for match
