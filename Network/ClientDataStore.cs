@@ -20,9 +20,9 @@ public abstract class ClientDataStore
         _programID = programID;
         _tcpProtocal = new _tcp(socket, this, partialClient);
     }
-    public delegate void _packetScripts(Packet packet, ProtocolType protocolType);
+    public delegate void PacketScripts(Packet packet, ProtocolType protocolType);
         // The store of methods defined by each client type
-    public Dictionary<int, _packetScripts> Handles;
+    public Dictionary<int, PacketScripts> Handles;
         // Secondary connect call for athenticating data and setting up UDP
     public void SetupUDP(IPEndPoint endPoint)
     {
@@ -34,7 +34,7 @@ public abstract class ClientDataStore
         }
         Console.WriteLine($"Client successfully connected");
     }
-        public void SendData(Packet packet, ProtocolType protocolType)
+    public void SendData(Packet packet, ProtocolType protocolType)
     {
         if (!packet.Packaged)
         {

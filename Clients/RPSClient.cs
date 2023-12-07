@@ -5,7 +5,7 @@ public class RPSClient : Client<RPSMatch>
 {
     public RPSClient(Socket socket, int programID, int parialClient):base(socket, programID, parialClient)
     {
-        Handles = new Dictionary<int, _packetScripts>() 
+        Handles = new Dictionary<int, PacketScripts>() 
         {
             { 0, _msg },
             { 1, _submition }

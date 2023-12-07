@@ -4,14 +4,11 @@ public class MessagerClient : Client<MSGMatch>
 {
     public MessagerClient(Socket socket, int programID, int partialClient):base(socket, programID, partialClient)
     {
-        Handles = new Dictionary<int, _packetScripts>()
+        Handles = new Dictionary<int, PacketScripts>()
         {
-            { 0, _msg }
+            { 0, CurrentMatch.SendToAll }
         };
         WelcomeMSG = "Welcome to the Messaging server";
     }
-    private void _msg(Packet packet, ProtocolType type)
-    {
-        CurrentMatch.SendToAll(packet, type);
-    }
+    
 }
