@@ -1,4 +1,4 @@
-This program allow anyone to create a server of any network typology
+This package allows anyone to create a server of any network typology
 -----------------------------------------------------------------------
 Settup
     Create a Matchtype --- (use the MSGMatch as an example)

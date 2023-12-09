@@ -8,7 +8,7 @@ public class MessagerClient : Client<MSGMatch> // link the Matchtype to the Clie
         // set the handle methods
         Handles = new Dictionary<int, PacketScripts>()
         {
-            { 0, _msg }
+            { 0, _msg } // when packet with packettype 0 comes in the _msg function is called
         };
     }
     // Example method
