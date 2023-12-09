@@ -27,7 +27,20 @@ public static class Server
     }
 
     // The main method that starts the server
-    public static void StartListeners()
+    public static void StartServer()
+    {
+        // Starts the threads
+        ThreadManager.StartThreads();
+        // Initializes Data
+        Console.WriteLine("Initializing please wait...");
+        InitializeData();
+        MatchMaker.InitializeData();
+        Console.WriteLine($"Data Initialized");
+        // Opens the server
+        _startListeners();
+    }
+    // Starts the listeners
+    private static void _startListeners()
     {
         Console.WriteLine($"Starting listening on ports {_startingPort} through {_startingPort + _programTypes.Count - 1}");
         for (int i = 0; i < _programTypes.Count; i++)

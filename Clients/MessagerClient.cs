@@ -6,9 +6,11 @@ public class MessagerClient : Client<MSGMatch>
     {
         Handles = new Dictionary<int, PacketScripts>()
         {
-            { 0, CurrentMatch.SendToAll }
+            { 0, _msg }
         };
-        WelcomeMSG = "Welcome to the Messaging server";
     }
-    
+    private void _msg(Packet packet, ProtocolType protocolType)
+    {
+        CurrentMatch.SendToAll(packet, protocolType);
+    }
 }

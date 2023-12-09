@@ -74,7 +74,7 @@ public abstract class Match
         _clients[reference].SendData(packet, protocolType);
     }
     // Distributes data to all but one client and the host
-    public void SendToAllButOne(string Ignored, Packet packet, ProtocolType protocolType)
+    public void SendToAllClientsIgnored(string Ignored, Packet packet, ProtocolType protocolType)
     {
         foreach (string client in _clients.Keys)
         {
