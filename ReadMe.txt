@@ -1,11 +1,11 @@
 This program allow anyone to create a server of any network typology
 -----------------------------------------------------------------------
 Settup
-    Create a Matchtype
+    Create a Matchtype --- (use the MSGMatch as an example)
         - create class the inhearites from Match
         - this class must contain a TryClient method this is where you decide if tha client joining the match joins
         - call AddClient to finish adding the client to the match
-    Create a clienttype
+    Create a clienttype --- (use the MessagerClient as an example)
         - create a class that inhearites from Client<Matchtype>
         - within the constructor set the Handles dictionary
             * Methods in the Handle must have the paramiters(Packet, ProtocalType)
