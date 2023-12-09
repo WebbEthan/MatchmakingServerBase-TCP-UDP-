@@ -42,3 +42,7 @@ Extra Info
         - Classes that inhearite from Match store a reference all the client in that match.
         - Contains methods for distributing data throughout match.
         - Classes that inhearite from Match can be used as a scriptable zone.
+---------------------------------------------------------------------------
+Console Commands
+    Stop
+        - Disconnects all clients, Stops the listeners and closes all sockets, Stops the server
