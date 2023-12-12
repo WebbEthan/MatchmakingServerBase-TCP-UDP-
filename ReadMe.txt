@@ -1,5 +1,5 @@
-This package allows anyone to create a server of any network typology
------------------------------------------------------------------------
+This package allows anyone to create a server of any network typology for as many programs as desired
+-----------------------------------------------------------------------------------------------------
 Settup
     Create a Matchtype --- (use the MSGMatch as an example)
         - create class the inhearites from Match
