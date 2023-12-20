@@ -11,10 +11,10 @@ public abstract class ClientDataStore
 {
     // A Reference to the UDP socket on the server
     private int _programID;
-    // What the id of the clinet is in a match
-    public string MatchRefrenceForClient = "";
     // Mesage sent durring authentication
     protected string WelcomeMSG = "Welcome to the server";
+    // What the id of the clinet is in a match
+    public string MatchRefrenceForClient = "";
     public ClientDataStore(Socket socket, int programID, int partialClient)
     {
         _programID = programID;
@@ -32,7 +32,7 @@ public abstract class ClientDataStore
         {
             SendData(packet, ProtocolType.Tcp);
         }
-        Console.WriteLine($"Client successfully connected");
+        Console.WriteLine($"Client at {endPoint} successfully connected");
     }
     public void SendData(Packet packet, ProtocolType protocolType)
     {
@@ -50,10 +50,13 @@ public abstract class ClientDataStore
         }
     }
     #region  Sockets
-    public void Disconnect()
+    public virtual void Disconnect()
     {
         _tcpProtocal.Disconnect();
-        _udpProtocal.Disconnect();
+        if (_udpProtocal != null)
+        {
+            _udpProtocal.Disconnect();
+        }
         Console.WriteLine("Client disconnected");
     }
     protected abstract void HandleTCPData(byte[] data);
@@ -83,7 +86,7 @@ public abstract class ClientDataStore
         
         public void SendData(Packet packet)
         {
-            _socket.BeginSend(packet.data.ToArray(), 0, packet.data.Count, SocketFlags.None, new AsyncCallback(_endSend), null);
+            _socket.BeginSend(packet.Data.ToArray(), 0, packet.Data.Count, SocketFlags.None, new AsyncCallback(_endSend), null);
         }
         private void _endSend(IAsyncResult result) { _socket.EndSend(result); }
         private void _handleData(IAsyncResult result)

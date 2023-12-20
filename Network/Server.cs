@@ -25,7 +25,22 @@ public static class Server
             _programTypes.Add(type);
         }
     }
-
+    public static void DebugPacket(int partialClient)
+    {
+        using (Packet packet = new Packet(0))
+        {
+            packet.Write("This is a test packet.");
+            _partialClients[partialClient].SendData(packet, ProtocolType.Tcp);
+        }
+    }
+        public static void DebugPacket(IPEndPoint client)
+    {
+        using (Packet packet = new Packet(0))
+        {
+            packet.Write("This is a test packet.");
+            _clients[client].SendData(packet, ProtocolType.Tcp);
+        }
+    }
     // The main method that starts the server
     public static void StartServer()
     {
@@ -146,6 +161,6 @@ public static class Server
     #endregion
     public static void SendUDPData(Packet packet, int programID, IPEndPoint endPoint)
     {
-        _serverUDPSockets[programID].BeginSend(packet.data.ToArray(), packet.data.Count, endPoint, null, null);
+        _serverUDPSockets[programID].BeginSend(packet.Data.ToArray(), packet.Data.Count, endPoint, null, null);
     }
 }

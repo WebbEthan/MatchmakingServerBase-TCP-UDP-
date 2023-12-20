@@ -55,7 +55,7 @@ public abstract class Match
     public void SendToAll(Packet packet, ProtocolType protocolType)
     {
         _hostClient.SendData(packet, protocolType);
-        foreach (Client<Match> client in _clients.Values)
+        foreach (ClientDataStore client in _clients.Values)
         {
             client.SendData(packet, protocolType);
         }
@@ -63,7 +63,7 @@ public abstract class Match
     // Distributes data to all clients except the host
     public void SendToAllClients(Packet packet, ProtocolType protocolType)
     {
-        foreach (Client<Match> client in _clients.Values)
+        foreach (ClientDataStore client in _clients.Values)
         {
             client.SendData(packet, protocolType);
         }

@@ -2,11 +2,21 @@ using System.Net.Sockets;
 // Used to allow scripting bettween match and client types
 public abstract class Client<matchType> : ClientDataStore where matchType : Match
 {
+    // The current match the client is in
     protected matchType CurrentMatch;
     public bool IsHost = false;
     public Client(Socket socket, int programID, int partialClient):base(socket, programID, partialClient)
     {
 
+    }
+    // Leaves match on disconnection
+    public override void Disconnect()
+    {
+        if (CurrentMatch != null)
+        {
+            CurrentMatch.RemoveClient(MatchRefrenceForClient);
+        }
+        base.Disconnect();
     }
     // TCP Handling is pushed here to allow convertion from type Match to typeof matchType
     protected override void HandleTCPData(byte[] data)
@@ -49,7 +59,14 @@ public abstract class Client<matchType> : ClientDataStore where matchType : Matc
                         Handles[packet.PacketType](packet, ProtocolType.Tcp);
                     }
                     // Runs packets recieved in rececion
-                    data = packet.data.GetRange(packet.PacketLength, packet.data.Count - packet.PacketLength).ToArray();
+                    if (packet.Packaged)
+                    {
+                        data = packet.Data.GetRange(packet.PacketLength + 1, packet.Data.Count - packet.PacketLength - 1).ToArray();
+                    }
+                    else
+                    {
+                        data = packet.Data.GetRange(packet.PacketLength, packet.Data.Count - packet.PacketLength).ToArray();
+                    }
                     if (data.Length == 0)
                     {
                         break;

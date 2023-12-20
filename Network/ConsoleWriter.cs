@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 public static class ConsoleWriter
 {
     // An easier method to add color
@@ -17,6 +18,21 @@ public static class ConsoleWriter
                 ThreadManager.StopThreads();
                 Server.StopServer();
                 WriteLine("Server Closed", ConsoleColor.Green);
+                break;
+            case "test":
+                if (int.TryParse(entrys[1], out int partialClient))
+                {
+                    Server.DebugPacket(partialClient);
+                    WriteLine($"Send Debug Packet To Partial Client {entrys[1]}", ConsoleColor.Green);
+                }
+                else
+                {
+                    Server.DebugPacket(IPEndPoint.Parse(entrys[1]));
+                    WriteLine($"Send Debug Packet To Client at {entrys[1]}", ConsoleColor.Green);
+                }
+                break;
+            default:
+                WriteLine("Unknown Command", ConsoleColor.Red);
                 break;
         }
     }
