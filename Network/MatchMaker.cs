@@ -1,6 +1,7 @@
 using System.Reflection;
 public static class MatchMaker
 {
+    #region Data
     // Initializes the dictionary for each type of match
     public static void InitializeData()
     {
@@ -11,6 +12,7 @@ public static class MatchMaker
         }
     }
     public static Dictionary<Type, Dictionary<string, Match>> _matches = new Dictionary<Type, Dictionary<string, Match>>();
+    #endregion
     // Handles the creation and joining of matches "-1" to create a match "0" for a random match
     public static bool RequestMatch<matchType>(string match, Type type, ClientDataStore client, ref matchType matchData, out bool isHost) where matchType : Match
     {
@@ -49,6 +51,7 @@ public static class MatchMaker
         }
         return false;
     }
+    #region MatchCreation
     private const string _usableCodeCharaters = "abcdefghijklmnopqrstuvwxyz0123456789";
     private static Random _random = new Random();
     // crates a new match
@@ -67,4 +70,5 @@ public static class MatchMaker
         Console.WriteLine($"Created {type.Name} match with code : {matchCode}");
         return newMatch;
     }
+    #endregion
 }

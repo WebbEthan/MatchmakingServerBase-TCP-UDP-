@@ -2,6 +2,7 @@ using System.Net.Sockets;
 
 public abstract class Match
 {
+    #region Data
     public string MatchCode;
     private ClientDataStore _hostClient;
     public Match (ClientDataStore hostclient, string matchCode)
@@ -15,6 +16,8 @@ public abstract class Match
     private Dictionary<string, ClientDataStore> _clients = new Dictionary<string, ClientDataStore>();
     public string[] GetClientIDs { get{ return _clients.Keys.ToArray(); } }
     public int ClientCount { get{ return _clients.Count + 1; }}
+    #endregion
+    #region Client Adding / Removing
     // Method for adding client
     public abstract bool TryClient(ClientDataStore client);
     // Checks that there is an available space for the client and add client to match, returns false if no space is available
@@ -45,7 +48,8 @@ public abstract class Match
             SendToAll(packet, ProtocolType.Tcp);
         }
     }
-    #region  Distributers
+    #endregion
+    #region Distributers
     // Sends data to the Host
     public void SendToHost(Packet packet, ProtocolType protocolType)
     {

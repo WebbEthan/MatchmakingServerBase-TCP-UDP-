@@ -9,6 +9,7 @@ using System.Net.Sockets;
 */
 public abstract class ClientDataStore
 {
+    #region Data
     // A Reference to the UDP socket on the server
     private int _programID;
     // Mesage sent durring authentication
@@ -21,19 +22,10 @@ public abstract class ClientDataStore
         _tcpProtocal = new _tcp(socket, this, partialClient);
     }
     public delegate void PacketScripts(Packet packet, ProtocolType protocolType);
-        // The store of methods defined by each client type
+    // The store of methods defined by each client type
     public Dictionary<int, PacketScripts> Handles;
-        // Secondary connect call for athenticating data and setting up UDP
-    public void SetupUDP(IPEndPoint endPoint)
-    {
-        _udpProtocal = new _udp(endPoint, this);
-        // Authentication callback
-        using (Packet packet = new Packet(253))
-        {
-            SendData(packet, ProtocolType.Tcp);
-        }
-        Console.WriteLine($"Client at {endPoint} successfully connected");
-    }
+    #endregion
+    // Packages unpackaged packets and feeds the packet to the socket
     public void SendData(Packet packet, ProtocolType protocolType)
     {
         if (!packet.Packaged)
@@ -49,7 +41,20 @@ public abstract class ClientDataStore
             _udpProtocal.SendData(packet);
         }
     }
-    #region  Sockets
+    #region Sockets
+    #region Connection Management
+    // Secondary connect call for athenticating data and setting up UDP
+    public void SetupUDP(IPEndPoint endPoint)
+    {
+        _udpProtocal = new _udp(endPoint, this);
+        // Authentication callback
+        using (Packet packet = new Packet(253))
+        {
+            SendData(packet, ProtocolType.Tcp);
+        }
+        Console.WriteLine($"Client at {endPoint} successfully connected");
+    }
+    // Disconnects the client
     public virtual void Disconnect()
     {
         _tcpProtocal.Disconnect();
@@ -59,9 +64,11 @@ public abstract class ClientDataStore
         }
         Console.WriteLine("Client disconnected");
     }
-    protected abstract void HandleTCPData(byte[] data);
     private _tcp _tcpProtocal;
     private _udp _udpProtocal;
+    #endregion
+    // TCP handle is abstracted to asses the matchtype in Client.cs
+    protected abstract void HandleTCPData(byte[] data);
     private class _tcp
     {
         // Prevents data being recieved during Close_Wait

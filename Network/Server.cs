@@ -7,6 +7,7 @@ using Microsoft.VisualBasic;
 public static class Server
 {
     private const int _startingPort = 25578;
+    #region Data
     // This is a the reference to all of the clients on the server
     private static Dictionary<IPEndPoint, ClientDataStore> _clients = new Dictionary<IPEndPoint, ClientDataStore>();
     private static int _clientsConnected = 0;
@@ -25,6 +26,8 @@ public static class Server
             _programTypes.Add(type);
         }
     }
+    #endregion
+    #region Debug
     public static void DebugPacket(int partialClient)
     {
         using (Packet packet = new Packet(0))
@@ -33,7 +36,7 @@ public static class Server
             _partialClients[partialClient].SendData(packet, ProtocolType.Tcp);
         }
     }
-        public static void DebugPacket(IPEndPoint client)
+    public static void DebugPacket(IPEndPoint client)
     {
         using (Packet packet = new Packet(0))
         {
@@ -41,6 +44,8 @@ public static class Server
             _clients[client].SendData(packet, ProtocolType.Tcp);
         }
     }
+    #endregion
+    #region Methods
     // The main method that starts the server
     public static void StartServer()
     {
@@ -54,7 +59,27 @@ public static class Server
         // Opens the server
         _startListeners();
     }
-    // Starts the listeners
+    // Disconnects all clients and closes the server
+    public static void StopServer()
+    {
+        // Stops Listeners
+        foreach (Socket socket in _serverTCPListeners)
+        {
+            socket.Close();
+        }
+        foreach (UdpClient socket in _serverUDPSockets)
+        {
+            socket.Close();
+        }
+        // Dissconnects all clients
+        foreach (ClientDataStore client in _clients.Values)
+        {
+            client.Disconnect();
+        }
+    }
+    #endregion
+    #region  Listeners
+        // Starts the listeners
     private static void _startListeners()
     {
         Console.WriteLine($"Starting listening on ports {_startingPort} through {_startingPort + _programTypes.Count - 1}");
@@ -75,25 +100,6 @@ public static class Server
         }
         Console.WriteLine("All UDP started");
     }
-    // Disconnects all clients and closes the server
-    public static void StopServer()
-    {
-        // Stops Listeners
-        foreach (Socket socket in _serverTCPListeners)
-        {
-            socket.Close();
-        }
-        foreach (UdpClient socket in _serverUDPSockets)
-        {
-            socket.Close();
-        }
-        // Dissconnects all clients
-        foreach (ClientDataStore client in _clients.Values)
-        {
-            client.Disconnect();
-        }
-    }
-    #region  Listeners
     private static List<Socket> _serverTCPListeners = new List<Socket>();
     private static List<UdpClient> _serverUDPSockets = new List<UdpClient>();
     // Listens for new incoming TCP connections and creates to apropriate class for such
