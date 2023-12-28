@@ -42,7 +42,7 @@ public abstract class Match
         return false;
     }
     // Removes client from the match and sends that info to the other clients in match
-    public void RemoveClient(string clientID, bool informClients = true)
+    public void RemoveClient(string clientID, bool runCallback = false, bool informClients = true)
     {
         if (clientID == _hostClient.MatchRefrenceForClient)
         {
@@ -50,6 +50,9 @@ public abstract class Match
             return;
         }
         _clients.Remove(clientID);
+
+        /// TODO send callback to removed client if runCallback is true
+        
         using (Packet packet = new Packet(252))
         {
             packet.Write(clientID);
@@ -60,7 +63,7 @@ public abstract class Match
     {
         while (_clients.Count > 0)
         {
-            RemoveClient(_clients.Keys.First(), false);
+            RemoveClient(_clients.Keys.First(), true, false);
         }
         MatchMaker.DeleteMatch(_type, MatchCode);
     }

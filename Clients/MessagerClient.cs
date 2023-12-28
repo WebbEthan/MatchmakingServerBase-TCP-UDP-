@@ -1,5 +1,5 @@
 using System.Net.Sockets;
-
+// DO NOT USES these binary values for packet id -> [0xFF, 0xFE, 0xFD, 0xFC, 0xFB, 0xFA]
 public class MessagerClient : Client<MSGMatch> // link the Matchtype to the Clienttype
 {
     // pass the Socket, programID, and partialClient into the base

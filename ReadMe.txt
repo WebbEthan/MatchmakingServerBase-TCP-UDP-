@@ -42,6 +42,8 @@ Extra Info
         - Classes that inhearite from Match store a reference all the client in that match.
         - Contains methods for distributing data throughout match.
         - Classes that inhearite from Match can be used as a scriptable zone.
+    Packet ID
+        - Do Not Use Values [0xFF, 0xFE, 0xFD, 0xFC, 0xFB, 0xFA] For your packet ID these are used by the sever for special functions
 ---------------------------------------------------------------------------
 Console Commands
     Stop
