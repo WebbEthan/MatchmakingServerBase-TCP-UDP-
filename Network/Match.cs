@@ -31,7 +31,7 @@ public abstract class Match
             {
                 client.MatchRefrenceForClient += "1";
             }
-            using (Packet packet = new Packet(254))
+            using (Packet packet = new Packet(0xfe))
             {
                 packet.Write(client.MatchRefrenceForClient);
                 SendToAll(packet, ProtocolType.Tcp);
@@ -42,7 +42,7 @@ public abstract class Match
         return false;
     }
     // Removes client from the match and sends that info to the other clients in match
-    public void RemoveClient(string clientID, bool runCallback = false, bool informClients = true)
+    public void RemoveClient(string clientID, bool informClients = true)
     {
         if (clientID == _hostClient.MatchRefrenceForClient)
         {
@@ -51,19 +51,29 @@ public abstract class Match
         }
         _clients.Remove(clientID);
 
-        /// TODO send callback to removed client if runCallback is true
-        
-        using (Packet packet = new Packet(252))
+        if (informClients)
         {
-            packet.Write(clientID);
-            SendToAll(packet, ProtocolType.Tcp);
+            using (Packet packet = new Packet(0xfc))
+            {
+                packet.Write(clientID);
+                SendToAll(packet, ProtocolType.Tcp);
+            }
         }
+    }
+    public void KickClient(string clientID, string reason)
+    {
+        using (Packet packet = new Packet(0xfb))
+        {
+            packet.Write(reason);
+            _clients[clientID].SendData(packet, ProtocolType.Tcp);
+        }
+        RemoveClient(clientID, false);
     }
     public void CloseMatch()
     {
         while (_clients.Count > 0)
         {
-            RemoveClient(_clients.Keys.First(), true, false);
+            KickClient(_clients.Keys.First(), "Match Closed");
         }
         MatchMaker.DeleteMatch(_type, MatchCode);
     }
