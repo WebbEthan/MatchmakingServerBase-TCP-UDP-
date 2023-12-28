@@ -1,7 +1,7 @@
 public class MSGMatch : Match
 {
     // pass the hostclient and the matchcode into the base
-    public MSGMatch(ClientDataStore hostClient, string matchCode):base(hostClient, matchCode)
+    public MSGMatch(ClientDataStore hostClient, string matchCode):base(typeof(MSGMatch), hostClient, matchCode)
     {
         
     }

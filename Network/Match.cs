@@ -3,10 +3,12 @@ using System.Net.Sockets;
 public abstract class Match
 {
     #region Data
+    private Type _type;
     public string MatchCode;
     private ClientDataStore _hostClient;
-    public Match (ClientDataStore hostclient, string matchCode)
+    public Match(Type type, ClientDataStore hostclient, string matchCode)
     {
+        _type = type;
         MatchCode = matchCode;
         _hostClient = hostclient;
     }
@@ -39,14 +41,27 @@ public abstract class Match
         return false;
     }
     // Removes client from the match and sends that info to the other clients in match
-    public void RemoveClient(string clientID)
+    public void RemoveClient(string clientID, bool informClients = true)
     {
+        if (clientID == _hostClient.MatchRefrenceForClient)
+        {
+            CloseMatch();
+            return;
+        }
         _clients.Remove(clientID);
         using (Packet packet = new Packet(252))
         {
             packet.Write(clientID);
             SendToAll(packet, ProtocolType.Tcp);
         }
+    }
+    public void CloseMatch()
+    {
+        while (_clients.Count > 0)
+        {
+            RemoveClient(_clients.Keys.First(), false);
+        }
+        MatchMaker.DeleteMatch(_type, MatchCode);
     }
     #endregion
     #region Distributers

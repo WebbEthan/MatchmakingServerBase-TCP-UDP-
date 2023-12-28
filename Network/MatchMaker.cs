@@ -71,4 +71,9 @@ public static class MatchMaker
         return newMatch;
     }
     #endregion
+    public static void DeleteMatch(Type type, string matchCode)
+    {
+        _matches[type].Remove(matchCode);
+        Console.WriteLine($"{type.Name} with code {matchCode} was closed.");
+    }
 }
