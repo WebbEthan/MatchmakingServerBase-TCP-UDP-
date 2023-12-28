@@ -31,7 +31,7 @@ public abstract class Match
             {
                 client.MatchRefrenceForClient += "1";
             }
-            using (Packet packet = new Packet(0xfe))
+            using (Packet packet = new Packet(254))
             {
                 packet.Write(client.MatchRefrenceForClient);
                 SendToAll(packet, ProtocolType.Tcp);
@@ -53,7 +53,7 @@ public abstract class Match
 
         if (informClients)
         {
-            using (Packet packet = new Packet(0xfc))
+            using (Packet packet = new Packet(252))
             {
                 packet.Write(clientID);
                 SendToAll(packet, ProtocolType.Tcp);
@@ -62,7 +62,7 @@ public abstract class Match
     }
     public void KickClient(string clientID, string reason)
     {
-        using (Packet packet = new Packet(0xfb))
+        using (Packet packet = new Packet(251))
         {
             packet.Write(reason);
             _clients[clientID].SendData(packet, ProtocolType.Tcp);
