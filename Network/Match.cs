@@ -27,7 +27,7 @@ public abstract class Match
     {
         if (_clients.Count < MaxClients - 1)
         {
-            while (_clients.ContainsKey(client.MatchRefrenceForClient))
+            while (_clients.ContainsKey(client.MatchRefrenceForClient) || _hostClient.MatchRefrenceForClient == client.MatchRefrenceForClient)
             {
                 client.MatchRefrenceForClient += "1";
             }
