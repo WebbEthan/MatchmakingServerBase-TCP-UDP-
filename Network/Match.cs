@@ -12,7 +12,7 @@ public abstract class Match
         MatchCode = matchCode;
         _hostClient = hostclient;
     }
-    protected int MaxClients;
+    protected int MaxClients = 99;
 
     //List of client in the match and their refrences
     private Dictionary<string, ClientDataStore> _clients = new Dictionary<string, ClientDataStore>();
@@ -37,6 +37,7 @@ public abstract class Match
                 SendToAll(packet, ProtocolType.Tcp);
             }
             _clients.Add(client.MatchRefrenceForClient, client);
+            return true;
         }
         return false;
     }

@@ -8,7 +8,6 @@ public class MSGMatch : Match
     // create a tryclient method for handling how client can or can't join the match
     public override bool TryClient(ClientDataStore client)
     {
-        AddClient(client);
-        return true;
+        return AddClient(client);
     }
 }

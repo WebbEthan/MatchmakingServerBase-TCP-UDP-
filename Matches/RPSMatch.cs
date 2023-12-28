@@ -4,7 +4,7 @@ public class RPSMatch : Match
 {
     public RPSMatch(ClientDataStore hostClient, string matchCode):base(typeof(RPSMatch), hostClient, matchCode)
     {
-
+        MaxClients = 2;
     }
     public override bool TryClient(ClientDataStore client)
     {
