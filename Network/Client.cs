@@ -4,6 +4,7 @@ public struct SocketData
     public Socket Socket;
     public int ProgramID;
     public int PartialClient;
+    public Match Match;
 }
 // Used to allow scripting bettween match and client types
 public abstract class Client<matchType> : ClientDataStore where matchType : Match
@@ -13,7 +14,7 @@ public abstract class Client<matchType> : ClientDataStore where matchType : Matc
     public bool IsHost = false;
     public Client(SocketData data):base(data.Socket, data.ProgramID, data.PartialClient)
     {
-
+        CurrentMatch = (matchType)MatchMaker.FillerMatcher[typeof(matchType)];
     }
     // Leaves match on disconnection
     public override void Disconnect()

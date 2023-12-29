@@ -9,9 +9,11 @@ public static class MatchMaker
             .Where(Match => Match.IsClass && !Match.IsAbstract && Match.IsSubclassOf(typeof(Match))))
         {
             _matches.Add(type, new Dictionary<string, Match>());
+            FillerMatcher.Add(type, (Match)Activator.CreateInstance(type));
         }
     }
-    public static Dictionary<Type, Dictionary<string, Match>> _matches = new Dictionary<Type, Dictionary<string, Match>>();
+    public static Dictionary<Type, Match> FillerMatcher = new Dictionary<Type, Match>();
+    private static Dictionary<Type, Dictionary<string, Match>> _matches = new Dictionary<Type, Dictionary<string, Match>>();
     #endregion
     // Handles the creation and joining of matches "-1" to create a match "0" for a random match
     public static bool RequestMatch<matchType>(string match, Type type, ClientDataStore client, ref matchType matchData, out bool isHost) where matchType : Match
@@ -55,7 +57,7 @@ public static class MatchMaker
     private const string _usableCodeCharaters = "abcdefghijklmnopqrstuvwxyz0123456789";
     private static Random _random = new Random();
     // crates a new match
-    private static matchType _createMatch<matchType>(Type type, ClientDataStore client) where matchType : Match 
+    private static matchType _createMatch<matchType>(Type type, ClientDataStore client) where matchType : Match
     {
         // Generates new match code
         string matchCode = null;
