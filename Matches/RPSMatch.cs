@@ -23,13 +23,13 @@ public class RPSMatch : Match
             SendToAll(packet, ProtocolType.Tcp);
         }
     }
-    private enum option { rock, paper, scissors }
+    private enum _option { Rock, Paper, Scissors }
     private string? _guesser;
-    private option? _savedGuess;
+    private _option? _savedGuess;
     public void MakeGuess(Packet packet, ProtocolType type)
     {
         string guesser = packet.ReadString();
-        option guess = (option)packet.ReadByte();
+        _option guess = (_option)packet.ReadByte();
         if (_savedGuess == null)
         {
             _guesser = guesser;

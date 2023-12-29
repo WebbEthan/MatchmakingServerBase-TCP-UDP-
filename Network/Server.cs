@@ -102,6 +102,7 @@ public static class Server
     }
     private static List<Socket> _serverTCPListeners = new List<Socket>();
     private static List<UdpClient> _serverUDPSockets = new List<UdpClient>();
+    #pragma warning disable
     // Listens for new incoming TCP connections and creates to apropriate class for such
     private static void _acceptTCPCallback(IAsyncResult result)
     {
@@ -169,4 +170,5 @@ public static class Server
     {
         _serverUDPSockets[programID].BeginSend(packet.Data.ToArray(), packet.Data.Count, endPoint, null, null);
     }
+    #pragma warning restore
 }
