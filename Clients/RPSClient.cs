@@ -3,7 +3,7 @@ using System.Reflection.Metadata;
 
 public class RPSClient : Client<RPSMatch>
 {
-    public RPSClient(Socket socket, int programID, int parialClient):base(socket, programID, parialClient)
+    public RPSClient(SocketData data):base(data)
     {
         Handles = new Dictionary<int, PacketScripts>() 
         {

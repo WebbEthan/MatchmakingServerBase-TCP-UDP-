@@ -113,7 +113,7 @@ public static class Server
             Console.WriteLine($"{newTCPClient.RemoteEndPoint} Attempted to connect to the server as a/an {_programTypes[program].Name}...");
             if (newTCPClient.Connected)
             {
-                _partialClients.Add(partialClient, Activator.CreateInstance(_programTypes[program], new object[] { newTCPClient, program, partialClient}) as ClientDataStore);
+                _partialClients.Add(partialClient, Activator.CreateInstance(_programTypes[program], new object[] { new SocketData{ Socket = newTCPClient, ProgramID = program, PartialClient = partialClient}} ) as ClientDataStore);
             }
             else
             {

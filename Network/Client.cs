@@ -1,11 +1,17 @@
 using System.Net.Sockets;
+public struct SocketData
+{
+    public Socket Socket;
+    public int ProgramID;
+    public int PartialClient;
+}
 // Used to allow scripting bettween match and client types
 public abstract class Client<matchType> : ClientDataStore where matchType : Match
 {
     // The current match the client is in
     protected matchType CurrentMatch;
     public bool IsHost = false;
-    public Client(Socket socket, int programID, int partialClient):base(socket, programID, partialClient)
+    public Client(SocketData data):base(data.Socket, data.ProgramID, data.PartialClient)
     {
 
     }
