@@ -6,7 +6,7 @@ public class Packet : IDisposable
     // A number to differenciate packet types
     public byte PacketType;
     public List<byte> Data;
-    private byte[]? _readingData;
+    private byte[] _readingData = new byte[0];
     private int _readerPos = 0;
     public int PacketLength;
     #region  Constructors

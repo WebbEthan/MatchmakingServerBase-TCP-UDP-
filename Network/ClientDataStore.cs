@@ -23,7 +23,7 @@ public abstract class ClientDataStore
     }
     public delegate void PacketScripts(Packet packet, ProtocolType protocolType);
     // The store of methods defined by each client type
-    public Dictionary<int, PacketScripts> Handles;
+    public Dictionary<int, PacketScripts> Handles = new Dictionary<int, PacketScripts>();
     #endregion
     // Packages unpackaged packets and feeds the packet to the socket
     public void SendData(Packet packet, ProtocolType protocolType)
@@ -32,11 +32,11 @@ public abstract class ClientDataStore
         {
             packet.PrepForSending();
         }
-        if (protocolType == ProtocolType.Tcp)
+        if (protocolType == ProtocolType.Tcp && _tcpProtocal != null)
         {
             _tcpProtocal.SendData(packet);
         }
-        else
+        else if (_udpProtocal != null)
         {
             _udpProtocal.SendData(packet);
         }
@@ -57,15 +57,18 @@ public abstract class ClientDataStore
     // Disconnects the client
     public virtual void Disconnect()
     {
-        _tcpProtocal.Disconnect();
+        if (_tcpProtocal != null)
+        {
+            _tcpProtocal.Disconnect();
+        }
         if (_udpProtocal != null)
         {
             _udpProtocal.Disconnect();
         }
         Console.WriteLine("Client disconnected");
     }
-    private _tcp _tcpProtocal;
-    private _udp _udpProtocal;
+    private _tcp? _tcpProtocal;
+    private _udp? _udpProtocal;
     #endregion
     // TCP handle is abstracted to asses the matchtype in Client.cs
     protected abstract void HandleTCPData(byte[] data);
