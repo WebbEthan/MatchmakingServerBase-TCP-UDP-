@@ -2,7 +2,7 @@ using System.Net.Sockets;
 
 public class RPSMatch : Match
 {
-    public RPSMatch(ClientDataStore hostClient, string matchCode):base(typeof(RPSMatch), hostClient, matchCode)
+    public RPSMatch(MatchInitializer initializer):base(initializer)
     {
         MaxClients = 2;
     }

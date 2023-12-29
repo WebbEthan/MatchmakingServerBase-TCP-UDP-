@@ -31,7 +31,7 @@ public abstract class Client<matchType> : ClientDataStore where matchType : Matc
         (254)unsigned - 0xFE - (-2)signed. // Send to client when a client joins the match they are in.
         (253)unsigned - 0xFD - (-3)signed. // The Callback when the client successfully authenticates.
         (252)unsigned - 0xFC - (-4)signed. // Used to Indicate when the client request to leave their current match, and send to inform client that a client has left their match.
-        NOT IMPEMENTED (251)unsigned - 0xFB - (-5)signed. // Used to Inform a client they have been kicked from a match
+        (251)unsigned - 0xFB - (-5)signed. // Used to Inform a client they have been kicked from a match
         NOT IMPEMENTED (250)unsigned - 0xFA - (-6)signed. // Used to read response times.
     */
     protected override void HandleTCPData(byte[] data)

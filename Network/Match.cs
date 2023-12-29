@@ -1,16 +1,21 @@
 using System.Net.Sockets;
-
+public struct MatchInitializer
+{
+    public Type MatchType;
+    public ClientDataStore HostClient;
+    public string MatchCode;
+}
 public abstract class Match
 {
     #region Data
     private Type _type;
     public string MatchCode;
     private ClientDataStore _hostClient;
-    public Match(Type type, ClientDataStore hostclient, string matchCode)
+    public Match(MatchInitializer initializer)
     {
-        _type = type;
-        MatchCode = matchCode;
-        _hostClient = hostclient;
+        _type = initializer.MatchType;
+        MatchCode = initializer.MatchCode;
+        _hostClient = initializer.HostClient;
     }
     protected int MaxClients = 99;
 

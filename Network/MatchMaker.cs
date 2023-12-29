@@ -65,7 +65,7 @@ public static class MatchMaker
         .Select(s => s[_random.Next(s.Length)]).ToArray());
         }
         // creates match
-        matchType newMatch = (matchType)Activator.CreateInstance(type, new object[] { client, matchCode });
+        matchType newMatch = (matchType)Activator.CreateInstance(type, new object[] { new MatchInitializer{ MatchType = type, HostClient = client, MatchCode = matchCode }});
         _matches[type].Add(matchCode, newMatch);
         Console.WriteLine($"Created {type.Name} match with code : {matchCode}");
         return newMatch;
