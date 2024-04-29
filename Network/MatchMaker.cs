@@ -9,7 +9,7 @@ public static class MatchMaker
             .Where(Match => Match.IsClass && !Match.IsAbstract && Match.IsSubclassOf(typeof(Match))))
         {
             _matches.Add(type, new Dictionary<string, Match>());
-            FillerMatcher.Add(type, (Match)Activator.CreateInstance(type));
+            FillerMatcher.Add(type, (Match)Activator.CreateInstance(type, new MatchInitializer()));
         }
     }
     public static Dictionary<Type, Match> FillerMatcher = new Dictionary<Type, Match>();
@@ -67,7 +67,7 @@ public static class MatchMaker
         .Select(s => s[_random.Next(s.Length)]).ToArray());
         }
         // creates match
-        matchType newMatch = (matchType)Activator.CreateInstance(type, new object[] { new MatchInitializer{ MatchType = type, HostClient = client, MatchCode = matchCode }});
+        matchType newMatch = (matchType)Activator.CreateInstance(type, new MatchInitializer{ MatchType = type, HostClient = client, MatchCode = matchCode });
         _matches[type].Add(matchCode, newMatch);
         Console.WriteLine($"Created {type.Name} match with code : {matchCode}");
         return newMatch;

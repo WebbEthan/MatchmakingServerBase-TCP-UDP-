@@ -19,7 +19,7 @@ public abstract class Client<matchType> : ClientDataStore where matchType : Matc
     // Leaves match on disconnection
     public override void Disconnect()
     {
-        if (CurrentMatch != null)
+        if (CurrentMatch.MatchCode != null)
         {
             CurrentMatch.RemoveClient(MatchRefrenceForClient);
         }

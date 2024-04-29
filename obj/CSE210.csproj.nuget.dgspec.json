@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\final\\CSE210.csproj": {}
+    "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\Final\\CSE210.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\final\\CSE210.csproj": {
+    "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\Final\\CSE210.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\final\\CSE210.csproj",
+        "projectUniqueName": "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\Final\\CSE210.csproj",
         "projectName": "CSE210",
-        "projectPath": "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\final\\CSE210.csproj",
+        "projectPath": "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\Final\\CSE210.csproj",
         "packagesPath": "C:\\Users\\ethan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\final\\obj\\",
+        "outputPath": "C:\\Users\\ethan\\Desktop\\CSE Homework\\CSE210\\Final\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
