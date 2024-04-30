@@ -30,24 +30,37 @@ Sending Data
                 * Sends Packet to all clients ignoring the host client and the client with the username passed in
 -------------------------------------------------------------------------
 Conneting to the server
-    Use the corolating package in your client usage is explained there.
+    Use the corolating package and your client usage is explained there.
 -------------------------------------------------------------------------
 Extra Info
-    Client<>
+    Client<delatgate> 
+        - The delagate must be the associated matchtype.
         - Classes that inhearite from Client are where the incoming data needs to be prossesed.
         - Methods in the MatchType passed in can be accessed here.
+        Methods
+            - CurrentMatch, Is a reference to the match the client is in and you can use this variable to run functions in the specific match class you created.
+            - WelcomeMSG, Is a message sent to the client while waiting for authentication.
+            - Disconnect(), Disconnects the client and destroys the class containing the reference to them.
     Match
         - Classes that inhearite from Match store a reference all the client in that match.
         - Contains methods for distributing data throughout match.
         - Classes that inhearite from Match can be used as a scriptable zone.
         Methods
-            - MaxClients, defualt is 99 for 100 player match
-            - TryClient(ClientDataStore) Can be used to create a custom authentication for the match, defualt retrun AddClient() method
-            - AddClient(ClientDataStore) adds client to match if possible
-            - KickClient(username, reason) Kicks a client from the match
+            - MaxClients, defualt is 99 for 100 player match.
+            - TryClient(ClientDataStore), Can be used to create a custom authentication for the match, defualt retrun AddClient() method.
+            - AddClient(ClientDataStore), adds client to match if possible.
+            - KickClient(username, reason), Kicks a client from the match.
     Packet ID
-        - Do Not Use Values [0xFF, 0xFE, 0xFD, 0xFC, 0xFB, 0xFA] For your packet ID these are used by the sever for special functions
+        - Do Not Use Values [0xFF, 0xFE, 0xFD, 0xFC, 0xFB, 0xFA] For your packet ID these are used by the sever for special functions.
 ---------------------------------------------------------------------------
 Console Commands
     Stop
         - Disconnects all clients, Stops the listeners and closes all sockets, Stops the server
+
+
+-------------------------
+Planned Updates
+    Ping and network timeout detection
+    File logging
+    Main config file
+    Meathod for custom client OnConnectToServerAuthentication
