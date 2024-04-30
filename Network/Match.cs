@@ -18,6 +18,8 @@ public abstract class Match
         _hostClient = initializer.HostClient;
     }
     protected int MaxClients = 99;
+    protected bool CreateLogFile = true;
+    protected bool NewLogFilePerMatch = false;
 
     //List of client in the match and their refrences
     private Dictionary<string, ClientDataStore> _clients = new Dictionary<string, ClientDataStore>();
@@ -26,7 +28,10 @@ public abstract class Match
     #endregion
     #region Client Adding / Removing
     // Method for adding client
-    public abstract bool TryClient(ClientDataStore client);
+    public virtual bool TryClient(ClientDataStore client)
+    {
+        return AddClient(client);
+    }
     // Checks that there is an available space for the client and add client to match, returns false if no space is available
     protected bool AddClient(ClientDataStore client)
     {
