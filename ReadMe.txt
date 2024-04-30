@@ -2,9 +2,7 @@ This package allows anyone to create a server of any network typology for as man
 -----------------------------------------------------------------------------------------------------
 Settup
     Create a Matchtype --- (use the MSGMatch as an example)
-        - create class the inhearites from Match
-        - this class must contain a TryClient method this is where you decide if tha client joining the match joins
-        - call AddClient to finish adding the client to the match
+        - create class the inhearites from Match passing a Match Initializer into the base
     Create a clienttype --- (use the MessagerClient as an example)
         - create a class that inhearites from Client<Matchtype>
         - within the constructor set the Handles dictionary
@@ -44,7 +42,8 @@ Extra Info
         - Classes that inhearite from Match can be used as a scriptable zone.
         Methods
             - MaxClients, defualt is 99 for 100 player match
-            - AddClient(username, informMatchClients) adds client to match if possible
+            - TryClient(ClientDataStore) Can be used to create a custom authentication for the match, defualt retrun AddClient() method
+            - AddClient(ClientDataStore) adds client to match if possible
             - KickClient(username, reason) Kicks a client from the match
     Packet ID
         - Do Not Use Values [0xFF, 0xFE, 0xFD, 0xFC, 0xFB, 0xFA] For your packet ID these are used by the sever for special functions
