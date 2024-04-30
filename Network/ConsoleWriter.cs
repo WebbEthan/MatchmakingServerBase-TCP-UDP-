@@ -2,12 +2,52 @@ using System;
 using System.Net;
 public static class ConsoleWriter
 {
-    // An easier method to add color
-    public static void WriteLine(string msg, ConsoleColor color = ConsoleColor.White)
+    public const bool MainLogFile = true;
+    // Initializes Files For system loging
+    public static void InitializeLogFiles()
+    {
+        // Creates Log Files and addresses
+        WriteLine("Creating Log Files...");
+        // Main Log File
+        int logFilesCreated = 0;
+        int dynamicLogFileCount = 0;
+        if (MainLogFile)
+        {
+
+            logFilesCreated++;
+        }
+        MatchMaker.CreateLogFiles(ref logFilesCreated, ref dynamicLogFileCount);
+        WriteLine($"Created {logFilesCreated} Log Files : {dynamicLogFileCount} Log Folders Created");
+    }
+    // An easier method to add color and writes output to a log file
+    public static void WriteLine(string msg, ConsoleColor color = ConsoleColor.White, bool writeToLog = MainLogFile)
     {
         Console.ForegroundColor = color;
         Console.WriteLine(msg);
         Console.ForegroundColor = ConsoleColor.White;
+        if (writeToLog)
+        {
+            if (MainLogFile)
+            {
+
+            }
+            else
+            {
+                WriteLine($"Cannot write to log, MainLogFile is set to false", ConsoleColor.Red, false);
+            }
+        }
+    }
+    // Gives the capability to write to a separate log File Per Match
+    public static void WriteLine(string msg, bool writeToLog, string logFile, bool outputToConsole = false)
+    {
+        if (outputToConsole)
+        {
+            WriteLine(msg, ConsoleColor.Gray, false);
+        }
+        if (writeToLog)
+        {
+
+        }
     }
     public static void ConsoleCommand(string command)
     {

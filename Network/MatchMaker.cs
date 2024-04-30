@@ -12,6 +12,10 @@ public static class MatchMaker
             FillerMatcher.Add(type, (Match)Activator.CreateInstance(type, new MatchInitializer()));
         }
     }
+    public static void CreateLogFiles(ref int createdFiles, ref int createdAddresses)
+    {
+
+    }
     public static Dictionary<Type, Match> FillerMatcher = new Dictionary<Type, Match>();
     private static Dictionary<Type, Dictionary<string, Match>> _matches = new Dictionary<Type, Dictionary<string, Match>>();
     #endregion

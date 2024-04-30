@@ -18,8 +18,9 @@ public static class Server
     // A list of all possible client types
     private static List<Type> _programTypes = new List<Type>();
     // Obtains all the possible types of clients
-    public static void InitializeData()
+    private static void InitializeData()
     {
+        ConsoleWriter.WriteLine("Loading Scripts...");
         foreach (Type type in Assembly.GetAssembly(typeof(ClientDataStore)).GetTypes()
             .Where(Client => Client.IsClass && !Client.IsAbstract && Client.IsSubclassOf(typeof(ClientDataStore))))
         {
@@ -55,6 +56,7 @@ public static class Server
         Console.WriteLine("Initializing please wait...");
         InitializeData();
         MatchMaker.InitializeData();
+        ConsoleWriter.InitializeLogFiles();
         Console.WriteLine($"Data Initialized");
         // Opens the server
         _startListeners();
