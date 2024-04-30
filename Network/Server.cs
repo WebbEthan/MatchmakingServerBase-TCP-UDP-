@@ -6,7 +6,7 @@ using Microsoft.VisualBasic;
 
 public static class Server
 {
-    private const int _startingPort = 25578;
+    private static int _startingPort = 25578;
     #region Data
     // This is a the reference to all of the clients on the server
     private static Dictionary<IPEndPoint, ClientDataStore> _clients = new Dictionary<IPEndPoint, ClientDataStore>();
@@ -18,13 +18,26 @@ public static class Server
     // A list of all possible client types
     private static List<Type> _programTypes = new List<Type>();
     // Obtains all the possible types of clients
-    private static void InitializeData()
+    private static void _initializeData()
     {
         ConsoleWriter.WriteLine("Loading Scripts...");
         foreach (Type type in Assembly.GetAssembly(typeof(ClientDataStore)).GetTypes()
             .Where(Client => Client.IsClass && !Client.IsAbstract && Client.IsSubclassOf(typeof(ClientDataStore))))
         {
             _programTypes.Add(type);
+        }
+    }
+    private static void _loadConfig()
+    {
+        try
+        {
+            string[] configData = File.ReadAllLines("Config.txt");
+            ConsoleWriter.MainLogFile = bool.Parse(configData[0].Substring(0, configData[0].IndexOf(":") -1));
+            _startingPort = int.Parse(configData[1].Substring(0, configData[1].IndexOf(":") -1));
+        }
+        catch
+        {
+            ConsoleWriter.WriteLine("Unable To Load Config.", ConsoleColor.Red, false);
         }
     }
     #endregion
@@ -52,14 +65,19 @@ public static class Server
     {
         // Starts the threads
         ThreadManager.StartThreads();
+        // Loads the Config Settings
+        Console.WriteLine("Loading Config");
+        _loadConfig();
         // Initializes Data
         Console.WriteLine("Initializing please wait...");
-        InitializeData();
+        _initializeData();
         MatchMaker.InitializeData();
+
         ConsoleWriter.InitializeLogFiles();
-        Console.WriteLine($"Data Initialized");
+        ConsoleWriter.WriteLine($"Data Initialized", ConsoleColor.DarkMagenta);
         // Opens the server
         _startListeners();
+        ConsoleWriter.WriteLine("Server Succesfully Started.", ConsoleColor.DarkMagenta);
     }
     // Disconnects all clients and closes the server
     public static void StopServer()

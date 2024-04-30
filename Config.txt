@@ -1,0 +1,4 @@
+true : Do Main Config File
+25579 : Starting Port
+// false : WhiteList
+// 200 : Max ping to timeouts, 0 for never

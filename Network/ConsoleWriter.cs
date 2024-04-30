@@ -1,8 +1,9 @@
 using System;
 using System.Net;
+using Microsoft.VisualBasic;
 public static class ConsoleWriter
 {
-    public const bool MainLogFile = true;
+    public static bool MainLogFile = true;
     // Initializes Files For system loging
     public static void InitializeLogFiles()
     {
@@ -20,12 +21,16 @@ public static class ConsoleWriter
         WriteLine($"Created {logFilesCreated} Log Files : {dynamicLogFileCount} Log Folders Created");
     }
     // An easier method to add color and writes output to a log file
-    public static void WriteLine(string msg, ConsoleColor color = ConsoleColor.White, bool writeToLog = MainLogFile)
+    public static void WriteLine(string msg, ConsoleColor color = ConsoleColor.White, bool? writeToLog = null)
     {
+        if (writeToLog == null)
+        {
+            writeToLog = MainLogFile;
+        }
         Console.ForegroundColor = color;
         Console.WriteLine(msg);
         Console.ForegroundColor = ConsoleColor.White;
-        if (writeToLog)
+        if (writeToLog == true)
         {
             if (MainLogFile)
             {
@@ -49,7 +54,7 @@ public static class ConsoleWriter
 
         }
     }
-    public static void ConsoleCommand(string command)
+    public static void ConsoleCommand(string? command)
     {
         string[] entrys = getWords(command);
         switch(entrys[0])
@@ -77,9 +82,13 @@ public static class ConsoleWriter
         }
     }
     // Split the input into separate words
-    private static string[] getWords(string line, char separater = ' ')
+    private static string[] getWords(string? line, char separater = ' ')
     {
         List<string> words = new List<string>();
+        if (string.IsNullOrEmpty(line))
+        {
+            return words.ToArray();
+        }
         while (line.Length > 0)
         {
             if (line.Contains(separater))
