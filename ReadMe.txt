@@ -62,5 +62,5 @@ Console Commands
 Planned Updates
     Ping and network timeout detection
     File logging
-    Main config file
+    IP WhiteList
     Meathod for custom client OnConnectToServerAuthentication
