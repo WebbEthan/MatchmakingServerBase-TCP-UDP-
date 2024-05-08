@@ -1,3 +1,4 @@
+using Network.data;
 using System.Net.Sockets;
 public class MessagerClient : Client<MSGMatch> // link the Matchtype to the Clienttype
 {

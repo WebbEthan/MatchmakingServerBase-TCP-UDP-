@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using Network.data;
 public class RPSClient : Client<RPSMatch>
 {
     public RPSClient(SocketData data):base(data)
