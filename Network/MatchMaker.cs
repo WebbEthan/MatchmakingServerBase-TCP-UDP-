@@ -9,11 +9,11 @@ namespace Network
         // Initializes the dictionary for each type of match
         public static void InitializeData()
         {
-            foreach (Type type in Assembly.GetAssembly(typeof(Match)).GetTypes()
+            foreach (Type type in Assembly.GetAssembly(typeof(Match))!.GetTypes()
                 .Where(Match => Match.IsClass && !Match.IsAbstract && Match.IsSubclassOf(typeof(Match))))
             {
                 _matches.Add(type, new Dictionary<string, Match>());
-                FillerMatcher.Add(type, (Match)Activator.CreateInstance(type, new MatchInitializer()));
+                FillerMatcher.Add(type, (Match)Activator.CreateInstance(type, new MatchInitializer())!);
             }
         }
         public static void CreateLogFiles(ref int createdFiles, ref int createdAddresses)
@@ -68,14 +68,14 @@ namespace Network
         private static matchType _createMatch<matchType>(Type type, ClientDataStore client) where matchType : Match
         {
             // Generates new match code
-            string matchCode = null;
+            string? matchCode = null;
             while (matchCode == null || _matches[type].ContainsKey(matchCode))
             {
                 matchCode = new string(Enumerable.Repeat(_usableCodeCharaters, 5)
             .Select(s => s[_random.Next(s.Length)]).ToArray());
             }
             // creates match
-            matchType newMatch = (matchType)Activator.CreateInstance(type, new MatchInitializer{ MatchType = type, HostClient = client, MatchCode = matchCode });
+            matchType newMatch = (matchType)Activator.CreateInstance(type, new MatchInitializer{ MatchType = type, HostClient = client, MatchCode = matchCode })!;
             _matches[type].Add(matchCode, newMatch);
             Console.WriteLine($"Created {type.Name} match with code : {matchCode}");
             return newMatch;

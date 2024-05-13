@@ -24,7 +24,7 @@ namespace Network
         private static void _initializeData()
         {
             ConsoleWriter.WriteLine("Loading Scripts...");
-            foreach (Type type in Assembly.GetAssembly(typeof(ClientDataStore)).GetTypes()
+            foreach (Type type in Assembly.GetAssembly(typeof(ClientDataStore))!.GetTypes()
                 .Where(Client => Client.IsClass && !Client.IsAbstract && Client.IsSubclassOf(typeof(ClientDataStore))))
             {
                 _programTypes.Add(type);
@@ -132,13 +132,13 @@ namespace Network
         {
             if (ThreadManager.ProgramActive)
             {
-                int program = (int)result.AsyncState;
+                int program = (int)result.AsyncState!;
                 Socket newTCPClient = _serverTCPListeners[program].EndAccept(result);
                 int partialClient = _clientsConnected++;
                 Console.WriteLine($"{newTCPClient.RemoteEndPoint} Attempted to connect to the server as a/an {_programTypes[program].Name}...");
                 if (newTCPClient.Connected)
                 {
-                    _partialClients.Add(partialClient, Activator.CreateInstance(_programTypes[program], new object[] { new SocketData{ Socket = newTCPClient, ProgramID = program, PartialClient = partialClient}} ) as ClientDataStore);
+                    _partialClients.Add(partialClient, (Activator.CreateInstance(_programTypes[program], new object[] { new SocketData{ Socket = newTCPClient, ProgramID = program, PartialClient = partialClient}} ) as ClientDataStore)!);
                 }
                 else
                 {
@@ -154,9 +154,9 @@ namespace Network
             {
                 // Finds endpoint and program
                 IPEndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                int program = (int)result.AsyncState;
+                int program = (int)result.AsyncState!;
                 // Gets data and starts listening for new data
-                byte[] data = _serverUDPSockets[program].EndReceive(result, ref clientEndPoint);
+                byte[] data = _serverUDPSockets[program].EndReceive(result, ref clientEndPoint!);
                 _serverUDPSockets[program].BeginReceive(_acceptUDPCallback, program);
 
                 // Moves to main thread
