@@ -1,6 +1,12 @@
 This package allows anyone to create a server of any network typology for as many programs as desired
 -----------------------------------------------------------------------------------------------------
-Settup
+Automatic Settup
+    Call Controller.CreateNetType<a>(b) before calling Server.StartServer();
+        - a = Network typology { Star, Point, Mesh }
+        - b = name of network
+    Call Server.StartServer(); to start the server
+-----------------------------------------------------------------------------------------------------
+Maunal Settup
     Create a Matchtype --- (use the MSGMatch as an example)
         - create class the inhearites from Match passing a Match Initializer into the base
     Create a clienttype --- (use the MessagerClient as an example)
