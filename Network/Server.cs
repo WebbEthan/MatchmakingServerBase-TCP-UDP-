@@ -4,6 +4,7 @@ using System.Reflection;
 
 using Network.threads;
 using Network.data;
+using Network.Automation;
 
 namespace Network
 {
@@ -38,7 +39,7 @@ namespace Network
                 
                 ConsoleWriter.MainLogFile = bool.Parse(configData[0].Substring(0, configData[0].IndexOf(":") -1));
                 _startingPort = int.Parse(configData[1].Substring(0, configData[1].IndexOf(":") -1));
-                ConsoleWriter.OverrideLogFiles = bool.Parse(configData[4].Substring(0, configData[4].IndexOf(":") -1));
+               // ConsoleWriter.OverrideLogFiles = bool.Parse(configData[4].Substring(0, configData[4].IndexOf(":") -1));
             }
             catch
             {
@@ -77,6 +78,7 @@ namespace Network
             Console.WriteLine("Initializing please wait...");
             _initializeData();
             MatchMaker.InitializeData();
+            _programTypes.AddRange(Controller.GetSimpleNetTypes());
 
             ConsoleWriter.InitializeLogFiles();
             ConsoleWriter.WriteLine($"Data Initialized", ConsoleColor.DarkMagenta);

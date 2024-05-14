@@ -24,36 +24,36 @@ namespace Network
         private static Dictionary<Type, Dictionary<string, Match>> _matches = new Dictionary<Type, Dictionary<string, Match>>();
         #endregion
         // Handles the creation and joining of matches "-1" to create a match "0" for a random match
-        public static bool RequestMatch<matchType>(string match, Type type, ClientDataStore client, ref matchType matchData, out bool isHost) where matchType : Match
+        public static bool RequestMatch<matchType>(string match, ClientDataStore client, ref matchType matchData, out bool isHost) where matchType : Match
         {
             isHost = false;
             switch (match)
             {
                 case "0":
                     // Random Match
-                    for (int i = 0; i < _matches[type].Count; i++)
+                    for (int i = 0; i < _matches[typeof(matchType)].Count; i++)
                     {
-                        if (_matches[type].ElementAt(i).Value.TryClient(client))
+                        if (_matches[typeof(matchType)].ElementAt(i).Value.TryClient(client))
                         {
-                            matchData = (matchType)_matches[type].ElementAt(i).Value;
+                            matchData = (matchType)_matches[typeof(matchType)].ElementAt(i).Value;
                             return true;
                         }
                     }
-                    matchData = _createMatch<matchType>(type, client);
+                    matchData = _createMatch<matchType>(client);
                     isHost = true;
                     return true;
                 case "-1":
                     // New Match
-                    matchData = _createMatch<matchType>(type, client);
+                    matchData = _createMatch<matchType>(client);
                     isHost = true;
                     return true;
                 default:
                     // Specific Match
-                    if (_matches[type].ContainsKey(match))
+                    if (_matches[typeof(MatchType)].ContainsKey(match))
                     {
-                        if (_matches[type][match].TryClient(client))
+                        if (_matches[typeof(MatchType)][match].TryClient(client))
                         {
-                            matchData = (matchType)_matches[type][match];
+                            matchData = (matchType)_matches[typeof(MatchType)][match];
                             return true;
                         }
                     }
@@ -65,26 +65,26 @@ namespace Network
         private const string _usableCodeCharaters = "abcdefghijklmnopqrstuvwxyz0123456789";
         private static Random _random = new Random();
         // crates a new match
-        private static matchType _createMatch<matchType>(Type type, ClientDataStore client) where matchType : Match
+        private static matchType _createMatch<matchType>(ClientDataStore client) where matchType : Match
         {
             // Generates new match code
             string? matchCode = null;
-            while (matchCode == null || _matches[type].ContainsKey(matchCode))
+            while (matchCode == null || _matches[typeof(matchType)].ContainsKey(matchCode))
             {
                 matchCode = new string(Enumerable.Repeat(_usableCodeCharaters, 5)
             .Select(s => s[_random.Next(s.Length)]).ToArray());
             }
             // creates match
-            matchType newMatch = (matchType)Activator.CreateInstance(type, new MatchInitializer{ MatchType = type, HostClient = client, MatchCode = matchCode })!;
-            _matches[type].Add(matchCode, newMatch);
-            Console.WriteLine($"Created {type.Name} match with code : {matchCode}");
+            matchType newMatch = (matchType)Activator.CreateInstance(typeof(matchType), new MatchInitializer{ MatchType = typeof(matchType), HostClient = client, MatchCode = matchCode })!;
+            _matches[typeof(matchType)].Add(matchCode, newMatch);
+            Console.WriteLine($"Created match with code : {matchCode}");
             return newMatch;
         }
         #endregion
         public static void DeleteMatch(Type type, string matchCode)
         {
             _matches[type].Remove(matchCode);
-            Console.WriteLine($"{type.Name} with code {matchCode} was closed.");
+            Console.WriteLine($"Match with code {matchCode} was closed.");
         }
     }
 }

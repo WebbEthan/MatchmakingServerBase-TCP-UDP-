@@ -51,7 +51,7 @@ namespace Network.data
                             // Requests a match
                             string matchCode = packet.ReadString();
                             MatchRefrenceForClient = packet.ReadString();
-                            if (MatchMaker.RequestMatch<matchType>(matchCode, typeof(matchType), this, ref CurrentMatch, out IsHost))
+                            if (MatchMaker.RequestMatch<matchType>(matchCode, this, ref CurrentMatch, out IsHost))
                             {
                                 // Returns data for match
                                 using (Packet packet1 = new Packet(255))
